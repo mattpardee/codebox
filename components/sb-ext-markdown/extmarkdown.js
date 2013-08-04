@@ -7,7 +7,7 @@ var SandboxController = require('sandboxcontroller').SandboxController
 	var name = "Markdown"
 		, enabled = false
 		, viewer = new vBox()
-		, outputCell = new Cell('<div id="markdown_output"></div>');
+		, outputCell = new Cell('<div id="markdown_output" class="markdown-body"></div>');
 
 	var markdown = {
 		getName : function() {
