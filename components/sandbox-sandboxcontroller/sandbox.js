@@ -15,7 +15,7 @@ var SandboxController = exports.SandboxController = (function() {
 		, activeRenderer
 		, editor
 		, editorContents
-		, savedEditorContents
+		, stashedEditorSession
 		, userListSplitView
 		, hbox = new hBox()
 		, navTabView = new TabView()
@@ -44,15 +44,16 @@ var SandboxController = exports.SandboxController = (function() {
 
 				}
 
-				//console.log(data);
+				console.log(data);
 				switch (data.cmd) {
 					case "handshake":
 						sessionGuid = data.guid;
-						that.addHistoryItem(editor.getValue(), sessionGuid, "Blank Document");
+						that.addHistoryItem("Untitled", editor.getValue(), sessionGuid);
 						historyContainer.setActiveListItem(0);
 						for (var i = 0, len = data.history.length; i < len; i++) {
 							that.addHistoryItem(
-								  data.history[i].code
+								  data.history[i].title
+								, data.history[i].code
 								, data.history[i].guid
 								, new Date(data.history[i].updated).toLocaleString()
 							);
@@ -65,32 +66,28 @@ var SandboxController = exports.SandboxController = (function() {
 			});
 		},
 
-		addHistoryItem : function(code, guid, updated) {
-			var bytesFormatted = code.length;
-			if (bytesFormatted < 1024) {
-				bytesFormatted = bytesFormatted + " bytes";
-			}
-			else { /*if (bytesFormatted >= 1024 && bytesFormatted < 1048576) {*/
-				bytesFormatted = (bytesFormatted/1024).toFixed(2) + " KB";
-			}
+		addHistoryItem : function(title, code, guid, updated) {
 			historyContainer.addListItem(
 				  ['<div><div class="selector"></div><div class="litext">',
-						, updated
+						, title
 						, '<br />'
-						, bytesFormatted
+						, updated || new Date(Date.now()).toLocaleString()
 						, '</div></div>'
 				  ].join('')
 				  , {
-						  code : code
-						, guid : guid
+				  		  title : title
+						, code  : code
+						, guid  : guid
 				  }
 			).on("mouseover", function(e) {
 				enableSave = false;
+				documentName.innerText = e.data.title;
 				editor.setValue(e.data.code);
 				editor.gotoLine(1);
 			}).on("mouseout", function() {
 				if (enableSave === false) {
-					editor.setValue(savedEditorContents);
+					editor.setValue(stashedEditorSession.contents);
+					documentName.innerText = stashedEditorSession.title;
 					editor.gotoLine(1);
 					enableSave = true;
 				}
@@ -101,6 +98,12 @@ var SandboxController = exports.SandboxController = (function() {
 					  cmd  : "changesession"
 					, guid : e.data.guid
 				});
+
+				documentName.innerText = e.data.title;
+				if (e.data.title === "Untitled")
+					documentName.classList.remove("modified");
+				else
+					documentName.classList.add("modified");
 
 				editor.setValue(e.data.code);
 				editor.gotoLine(1);
@@ -151,7 +154,11 @@ var SandboxController = exports.SandboxController = (function() {
 			});
 			documentName.addEventListener("blur", function() {
 				if (this.classList.contains("modified")) {
-					console.log(this.innerText);
+					connHandler.sendMessage({
+						  cmd   : "updatetitle"
+						, guid  : sessionGuid
+						, title : this.innerText
+					});
 				}
 			});
 			editorHeader.el.appendChild(documentName);
@@ -253,16 +260,19 @@ var SandboxController = exports.SandboxController = (function() {
 		},
 
 		setupEditor : function() {
-			var that = this
-				, timeout;
+			var that = this, timeout;
 
 			editor = ace.edit("editor");
 			editor.setTheme("ace/theme/xcode");
 
 			editor.on("change", function(e) {
 				editorContents = editor.getValue();
-				if (enableSave === true)
-					savedEditorContents = editorContents;
+				if (enableSave === true) {
+					stashedEditorSession = {
+						  contents : editorContents
+						, title : documentName.innerText
+					}
+				}
 
 				that.emit("run", {
 					editorContents : editorContents
@@ -288,9 +298,14 @@ var SandboxController = exports.SandboxController = (function() {
 					'\n</html>'].join(''));
 			editor.gotoLine(11);
 			setTimeout(function() {
-				savedEditorContents = editor.getValue();
+				stashedEditorSession = {
+					  contents : editor.getValue()
+					, title : documentName.innerText
+				}
 				enableSave = true;
 			}, 350);
+
+			activeRenderer.enable(editor.getValue());
 		}
 	};
 

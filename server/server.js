@@ -60,7 +60,7 @@ function Session(ws) {
 	    , alreadySaved = false;
 
 	var query = CodeBlob.find();
-	query.select("guid code updated -_id");
+	query.select("guid title doctype code updated -_id");
 	query.sort({updated: -1});
 	query.exec(function(err, codes) {
 		ws.send(JSON.stringify({
@@ -69,6 +69,39 @@ function Session(ws) {
 			, 'history' : codes
 		}));
 	});
+
+	function saveUnsavedBlob() {
+		codeBlob.save(function(err) {
+			if (err)
+				console.log("error saving codeblob", err);
+		});
+		alreadySaved = true;
+	}
+
+	function updateBlob(update_attrs) {
+		if (alreadySaved === false) {
+			saveUnsavedBlob();
+			return;
+		}
+
+		update_attrs.updated = Date.now();
+
+		CodeBlob.findOneAndUpdate({
+				guid : codeBlob.guid
+			},
+			update_attrs,
+			function(err, cblob) {
+				if (err)
+					console.log("error finding & saving codeblob", err);
+				if (!cblob) {
+					codeBlob.save(function(err) {
+						if (err)
+							console.log("error saving codeblob", err);
+					});
+				}
+			}
+		);
+	}
 
     ws.on('message', function(message) {
     	try {
@@ -81,31 +114,12 @@ function Session(ws) {
         switch (message.cmd) {
         	case "save":
     			codeBlob.code = message.code;
-    			if (alreadySaved === false) {
-	    			codeBlob.save(function(err) {
-						if (err)
-							console.log("error saving codeblob", err);
-					});
-					alreadySaved = true;
-	    		}
-	    		else {
-	    			CodeBlob.findOneAndUpdate({
-	    					guid : codeBlob.guid
-	    				}, {
-	    					code : codeBlob.code
-	    				  , updated : Date.now()
-	    				}, function(err, cblob) {
-	    					if (err)
-								console.log("error finding & saving codeblob", err);
-							if (!cblob) {
-								codeBlob.save(function(err) {
-									if (err)
-										console.log("error saving codeblob", err);
-								});
-							}
-	    				}
-	    			);
-	    		}
+	    		updateBlob({ code : codeBlob.code });
+        		break;
+
+        	case "updatetitle":
+        		codeBlob.title = message.title;
+	    		updateBlob({ title : codeBlob.title });
         		break;
 
         	case "changesession":

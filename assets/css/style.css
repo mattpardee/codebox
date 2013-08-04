@@ -148,7 +148,7 @@ html, body {
 	left: 50px;
 	width: 240px;
 	height: 100%;
-	border-right: 1px solid #999;
+	border-right: 1px solid #aaa;
 	overflow-y: auto;
 }
 
@@ -212,6 +212,7 @@ html, body {
 
 #document-name {
 	font-size: 16px;
+	line-height: 16px;
 	font-weight: 200;
 	margin: 0;
 	padding: 2px 5px;
@@ -221,10 +222,10 @@ html, body {
 
 	outline: 1px solid transparent;
 
-	-webkit-transition: outline 0.2s, color 0.2s;
-	-moz-transition: outline 0.2s, color 0.2s;
-	-o-transition: outline 0.2s, color 0.2s;
-	-ms-transition: outline 0.2s, color 0.2s;
+	-webkit-transition: outline 0.15s, color 0.2s;
+	-moz-transition: outline 0.15s, color 0.2s;
+	-o-transition: outline 0.15s, color 0.2s;
+	-ms-transition: outline 0.15s, color 0.2s;
 }
 
 #document-name.modified {
