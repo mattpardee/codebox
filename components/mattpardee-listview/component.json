@@ -1,0 +1,19 @@
+{
+  "name": "listview",
+  "description": "A list container",
+  "version": "0.0.1",
+  "main": "listview.js",
+  "scripts": [
+    "listview.js"
+  ],
+  "styles": [
+    "listview.css"
+  ],
+  "dependencies": {
+    "component/emitter" : "*",
+    "component/domify" : "*",
+    "creationix/fbox" : "*",
+    "mattpardee/fboxcell" : "*"
+  },
+  "repo": "https://raw.github.com/mattpardee/listview"
+}

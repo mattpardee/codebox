@@ -1,0 +1,4 @@
+.fbox, .fbox > * {
+    position: absolute;
+    overflow: hidden;
+}

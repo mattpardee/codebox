@@ -1,0 +1,16 @@
+{
+  "name": "fbox",
+  "description": "A simplified flexbox style layout using absolute positions and sizes",
+  "version": "0.0.1",
+  "main": "fbox.js",
+  "scripts": [
+    "fbox.js"
+  ],
+  "styles": [
+    "fbox.css"
+  ],
+  "dependencies" : {
+    "component/emitter" : "*"
+  },
+  "repo": "https://raw.github.com/creationix/fbox"
+}

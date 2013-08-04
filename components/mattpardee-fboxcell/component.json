@@ -1,0 +1,12 @@
+{
+  "name": "fboxcell",
+  "description": "DOM elements with fbox resize method",
+  "version": "0.0.1",
+  "main": "cell.js",
+  "dependencies": {
+    "component/domify": "*"
+  },
+  "scripts": [
+    "cell.js"
+  ]
+}

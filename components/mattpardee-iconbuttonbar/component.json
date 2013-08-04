@@ -1,0 +1,19 @@
+{
+  "name": "iconbuttonbar",
+  "description": "Container for iconbuttons",
+  "version": "0.0.1",
+  "main": "iconbuttonbar.js",
+  "scripts": [
+    "iconbuttonbar.js"
+  ],
+  "styles": [
+    "iconbuttonbar.css"
+  ],
+  "dependencies": {
+    "component/emitter" : "*",
+    "creationix/iconbutton": "*",
+    "creationix/fbox" : "*",
+    "creationix/iconbutton" : "*"
+  },
+  "repo": "https://raw.github.com/mattpardee/iconbuttonbar"
+}

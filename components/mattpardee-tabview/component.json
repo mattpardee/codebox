@@ -1,0 +1,16 @@
+{
+	"name": "tabview",
+	"description": "A tabbed iconbuttonbar and linked views",
+	"version": "0.0.1",
+	"main": "tabview.js",
+	"scripts": [
+		"tabview.js"
+	],
+	"dependencies": {
+		"component/emitter" : "*",
+		"component/domify" : "*",
+		"creationix/fbox" : "*",
+		"mattpardee/fboxcell" : "*"
+	},
+	"repo": "https://raw.github.com/mattpardee/tabview"
+}

@@ -1,0 +1,12 @@
+.iconbutton {
+    display: inline-block;
+    text-align: center;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+.iconbutton.disabled {
+    opacity: 0.3;
+    cursor: inherit;
+}

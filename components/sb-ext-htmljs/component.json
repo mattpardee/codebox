@@ -1,0 +1,12 @@
+{
+  "name": "exthtmljs",
+  "main": "exthtmljs.js",
+  "scripts": [
+    "exthtmljs.js"
+  ],
+  "dependencies": {
+    "creationix/fbox": "*",
+    "mattpardee/fboxcell" : "*",
+    "sandbox/sandboxcontroller": "*"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "splitview",
+  "description": "A simple layour component for a resizable splitview",
+  "version": "0.0.1",
+  "main": "splitview.js",
+  "scripts": [
+    "splitview.js"
+  ],
+  "styles": [
+    "splitview.css"
+  ],
+  "dependencies": {
+    "component/emitter" : "*"
+  },
+  "repo": "https://raw.github.com/creationix/splitview"
+}

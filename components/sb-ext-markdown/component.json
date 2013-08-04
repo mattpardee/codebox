@@ -1,0 +1,16 @@
+{
+  "name": "extmarkdown",
+  "main": "extmarkdown.js",
+  "scripts": [
+    "extmarkdown.js"
+  ],
+  "styles": [
+    "extmarkdown.css"
+  ],
+  "dependencies": {
+  	"component/marked" : "*",
+    "creationix/fbox": "*",
+    "mattpardee/fboxcell": "*",
+    "sandbox/sandboxcontroller": "*"
+  }
+}

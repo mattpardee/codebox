@@ -1,0 +1,17 @@
+{
+  "name": "jssandbox",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "creationix/fbox": "*",
+    "creationix/splitview": "*",
+    "mattpardee/fboxcell": "*",
+    "sandbox/connectionhandler": "*",
+    "sandbox/sandboxcontroller": "*",
+    "sb/ext-htmljs": "*",
+    "sb/ext-markdown": "*",
+    "creationix/iconbutton": "*",
+    "component/marked": "*"
+  }
+}

@@ -1,0 +1,248 @@
+* {
+	margin: 0;
+	padding: 0;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html, body {
+	font-family: Helvetica;
+	font-size: 13px;
+	font-weight: 200;
+	overflow: hidden;
+}
+
+#app-header {
+	border-bottom: 1px solid #bbb;
+	background: #f7f7f7;
+}
+
+#header-logo {
+	padding: 12px 0 0 13px;
+	font-size: 18px;
+	color: #4F7AA3;
+	font-weight: 200;
+	font-family: "Helvetica Neue";
+}
+
+#header-logo img {
+	position: relative;
+	top: 2px;
+	margin-right: 5px;
+}
+
+#header-logo span {
+	position: relative;
+	top: -2px;
+}
+
+#header-logo > i.icon {
+	margin: 0 5px;
+}
+
+.splitview > .slider {
+	background: transparent;
+}
+.splitview.horizontal > .slider {
+	border-right: 1px solid #ddd;
+	width: 5px;
+}
+
+#ace_editor {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#navbar {
+	border-right: 1px solid #AAA;
+	background: #282D31;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: moz-none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#navbar a.iconbutton {
+	border-bottom: 1px solid #ccc;
+	cursor: default;
+	-webkit-transition: background 0.15s;
+	-moz-transition: background 0.15s;
+	-o-transition: background 0.15s;
+	-ms-transition: background 0.15s;
+}
+
+#navbar a.iconbutton.active, #navbar a.iconbutton:hover {
+	background: #44484B;
+}
+
+#navbar a.iconbutton i.icon {
+	position: relative;
+	top: 13px;
+	font-size: 16px;
+	color: #fff;
+
+	-webkit-transition: color 0.15s;
+	-moz-transition: color 0.15s;
+	-o-transition: color 0.15s;
+	-ms-transition: color 0.15s;
+}
+
+#navbar a.iconbutton.active i.icon {
+	color: #18E2E2;
+}
+
+#sandbox-iframe {
+	border: none;
+}
+
+#connection_status {
+	position: relative;
+}
+
+#connection_status i.icon {
+	position: absolute;
+	left: 20px;
+	top: 18px;
+	color: #55B355;
+}
+
+#connection_status.disconnected i.icon {
+	color: #E2502B;
+}
+
+#iframe-cover {
+	position: absolute;
+	left: 0;
+	top: 0;
+	pointer-events: none;
+}
+
+#iframe-cover.moving {
+	pointer-events: auto;
+}
+
+#editor_splitview {
+	-webkit-transition: -webkit-transform 0.2s, box-shadow 0.2s;
+	-moz-transition: -moz-transform 0.2s, box-shadow 0.2s;
+	-o-transition: -o-transform 0.2s, box-shadow 0.2s;
+	-ms-transition: -ms-transform 0.2s, box-shadow 0.2s;
+}
+
+#body_container.expand #editor_splitview {
+	-webkit-transform: translate(240px, 0px);
+	-moz-transform: translate(240px, 0px);
+	-o-transform: translate(240px, 0px);
+	-ms-transform: translate(240px, 0px);
+	box-shadow: -3px 0px 7px rgba(0, 0, 0, 0.3);
+}
+
+#history-container {
+	position: absolute;
+	top: 0;
+	left: 50px;
+	width: 240px;
+	height: 100%;
+	border-right: 1px solid #999;
+	overflow-y: auto;
+}
+
+.listview {
+	background: #d0d0d0 url(../images/thatched_bg.png);
+	overflow: auto;
+}
+
+.listitem {
+	cursor: default;
+	background: #fff;
+	border-bottom: 1px solid #aaa;
+	-webkit-transition: background 0.15s;
+	-moz-transition: background 0.15s;
+	-o-transition: background 0.15s;
+	-ms-transition: background 0.15s;
+}
+
+.listitem:hover {
+	background: #f7f7f7;
+}
+
+.listitem * {
+	pointer-events: none;
+}
+
+.listitem .selector {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border-radius: 40px;
+	border: 2px solid #fff;
+    background: #fff;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 1);
+    position: absolute;
+    left: 14px;
+    top: 19px;
+
+    -webkit-transition: background 0.25s;
+	-moz-transition: background 0.25s;
+	-o-transition: background 0.25s;
+	-ms-transition: background 0.25s;
+}
+
+.listitem:hover .selector {
+	background: #bbb;
+}
+.listitem.selected .selector, .listitem.selected:hover .selector {
+	background: #5EF240;
+}
+
+.listitem .litext {
+	margin-left: 25px;
+}
+
+#editor-header {
+	background: #f7f7f7;
+	border-bottom: 1px solid #ddd;
+	padding: 5px 10px;
+}
+
+#document-name {
+	font-size: 16px;
+	font-weight: 200;
+	margin: 0;
+	padding: 2px 5px;
+	top: 7px;
+	left: 5px;
+	color: #888;
+
+	outline: 1px solid transparent;
+
+	-webkit-transition: outline 0.2s, color 0.2s;
+	-moz-transition: outline 0.2s, color 0.2s;
+	-o-transition: outline 0.2s, color 0.2s;
+	-ms-transition: outline 0.2s, color 0.2s;
+}
+
+#document-name.modified {
+	color: #555;
+}
+
+#document-name:hover {
+	outline: 1px solid #bbb;
+}
+
+#document-name:focus, #document-name.modified:focus {
+	color: #888;
+	outline: 1px solid #bbb;
+}
+
+#mode-selector {
+	margin: 0;
+	right: 10px;
+	top: 8px;
+	width: 160px;
+}

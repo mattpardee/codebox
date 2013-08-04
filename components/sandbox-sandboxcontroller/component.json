@@ -1,0 +1,19 @@
+{
+  "name": "sandboxcontroller",
+  "description": "Controller for the sandbox",
+  "version": "0.0.1",
+  "main": "sandbox.js",
+  "dependencies": {
+    "component/domify" : "*",
+    "component/emitter" : "*",
+    "creationix/fbox" : "*",
+    "creationix/splitview" : "*",
+    "mattpardee/fboxcell" : "*",
+    "mattpardee/tabview" : "*",
+    "mattpardee/listview" : "*",
+    "mattpardee/iconbuttonbar" : "*"
+  },
+  "scripts": [
+    "sandbox.js"
+  ]
+}

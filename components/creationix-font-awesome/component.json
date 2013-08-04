@@ -1,0 +1,16 @@
+{
+  "name": "font-awesome",
+  "description": "The iconic font designed for use with Twitter Bootstrap (modified to work with component)",
+  "version": "0.0.1",
+  "styles": [
+    "css/font-awesome.css"
+  ],
+  "files": [
+    "font/fontawesome-webfont.eot",
+    "font/fontawesome-webfont.svg",
+    "font/fontawesome-webfont.ttf",
+    "font/fontawesome-webfont.woff",
+    "css/font-awesome-ie7.css"
+  ],
+  "repo": "https://raw.github.com/creationix/font-awesome"
+}

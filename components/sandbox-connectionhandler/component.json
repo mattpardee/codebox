@@ -1,0 +1,12 @@
+{
+  "name": "connectionhandler",
+  "description": "Manages websocket connection to server",
+  "version": "0.0.1",
+  "main": "handler.js",
+  "dependencies": {
+  	"component/emitter" : "*"
+  },
+  "scripts": [
+    "handler.js"
+  ]
+}
