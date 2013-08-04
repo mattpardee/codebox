@@ -50,7 +50,9 @@ implementations were tremendously useful.
 
 Ultimately I needed to modify Tim's components for some functional and
 aesthetic reasons and so I'll likely put those changes in my own component
-repos. One of the many todos :-)
+repos. One of the many todos :-). For now though, I simply committed all
+the component repos as-is and omit `component install` from the
+installation instructions.
 
 Editor component is [Ace](http://ace.c9.io).
 
