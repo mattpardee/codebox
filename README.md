@@ -1,5 +1,16 @@
 #Code Sandbox
 
+_A general purpose coding utility with live rendering and autosaving to a
+mongo backend._
+
+**HTML/JS mode**
+
+![](https://dsz91cxz97a03.cloudfront.net/MaG65eAbTT-1200x1200.png)
+
+**Markdown Mode** (also shows the document sidebar)
+
+![](https://dsz91cxz97a03.cloudfront.net/H65ACwMoFX-3000x3000.png)
+
 To use:
 
 ```
