@@ -121,6 +121,11 @@ var SandboxController = exports.SandboxController = (function() {
 				editor.setValue(e.data.code);
 				editor.gotoLine(1);
 
+				stashedEditorSession = {
+					  contents : e.data.code
+					, title : e.data.title
+				}
+
 				enableSave = true;
 			});
 		},
@@ -162,8 +167,16 @@ var SandboxController = exports.SandboxController = (function() {
 					});
 				}
 			});
-			documentName.addEventListener("keyup", function() {
+			documentName.addEventListener("keydown", function(e) {
+				if (e.keyCode === 13) {
+					e.preventDefault();
+					return false;
+				}
+			});
+			documentName.addEventListener("keyup", function(e) {
 				this.classList.add("modified");
+				if (e.keyCode === 13)
+					this.blur();
 			});
 			documentName.addEventListener("blur", function() {
 				if (this.classList.contains("modified")) {
@@ -291,17 +304,16 @@ var SandboxController = exports.SandboxController = (function() {
 
 			editor.on("change", function(e) {
 				editorContents = editor.getValue();
-				if (enableSave === true) {
-					stashedEditorSession = {
-						  contents : editorContents
-						, title : documentName.innerText
-					}
-				}
 
 				if (runnerEnabled)
 					that.emit("run", { editorContents : editorContents });
 
 				if (enableSave === true) {
+					stashedEditorSession = {
+						  contents : editorContents
+						, title : documentName.innerText
+					}
+
 					clearTimeout(timeout);
 					timeout = setTimeout(function() {
 						// Save changes to the server

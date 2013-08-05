@@ -45,7 +45,7 @@ html, body {
 	background: transparent;
 }
 .splitview.horizontal > .slider {
-	border-right: 1px solid #ddd;
+	border-right: 1px solid #acacac;
 	width: 5px;
 }
 
