@@ -6,6 +6,7 @@ var WebSocketServer = require('ws').Server
 /*
  * Mongoose code
  */
+var allowedUpdateAttributes = ["title", "doctype", "code"];
 var CodeBlobSchema = new Schema({
       "guid"    : { type: String }
     , "title"   : { type: String, default: "Untitled" }
@@ -117,9 +118,13 @@ function Session(ws) {
 	    		updateBlob({ code : codeBlob.code });
         		break;
 
-        	case "updatetitle":
-        		codeBlob.title = message.title;
-	    		updateBlob({ title : codeBlob.title });
+        	case "updateattr":
+        		if (allowedUpdateAttributes.indexOf(message.attribute) === -1)
+        			return;
+        		codeBlob[message.attribute] = message.attribute_value;
+        		var whatToSave = {};
+        		whatToSave[message.attribute] = message.attribute_value;
+        		updateBlob(whatToSave);
         		break;
 
         	case "changesession":

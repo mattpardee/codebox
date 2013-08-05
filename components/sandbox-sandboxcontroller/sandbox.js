@@ -13,6 +13,8 @@ var SandboxController = exports.SandboxController = (function() {
 		, parentContainer
 		, renderers = {}
 		, activeRenderer
+		, renderersDropdownList = []
+		, runnerEnabled = true
 		, editor
 		, editorContents
 		, stashedEditorSession
@@ -48,12 +50,13 @@ var SandboxController = exports.SandboxController = (function() {
 				switch (data.cmd) {
 					case "handshake":
 						sessionGuid = data.guid;
-						that.addHistoryItem("Untitled", editor.getValue(), sessionGuid);
+						that.addHistoryItem("Untitled", editor.getValue(), "htmljavascript", sessionGuid);
 						historyContainer.setActiveListItem(0);
 						for (var i = 0, len = data.history.length; i < len; i++) {
 							that.addHistoryItem(
 								  data.history[i].title
 								, data.history[i].code
+								, data.history[i].doctype
 								, data.history[i].guid
 								, new Date(data.history[i].updated).toLocaleString()
 							);
@@ -66,7 +69,9 @@ var SandboxController = exports.SandboxController = (function() {
 			});
 		},
 
-		addHistoryItem : function(title, code, guid, updated) {
+		addHistoryItem : function(title, code, doctype, guid, updated) {
+			var that = this;
+
 			historyContainer.addListItem(
 				  ['<div><div class="selector"></div><div class="litext">',
 						, title
@@ -75,12 +80,14 @@ var SandboxController = exports.SandboxController = (function() {
 						, '</div></div>'
 				  ].join('')
 				  , {
-				  		  title : title
-						, code  : code
-						, guid  : guid
+				  		  title   : title
+						, code    : code
+						, doctype : doctype
+						, guid    : guid
 				  }
 			).on("mouseover", function(e) {
 				enableSave = false;
+				runnerEnabled = false;
 				documentName.innerText = e.data.title;
 				editor.setValue(e.data.code);
 				editor.gotoLine(1);
@@ -90,8 +97,11 @@ var SandboxController = exports.SandboxController = (function() {
 					documentName.innerText = stashedEditorSession.title;
 					editor.gotoLine(1);
 					enableSave = true;
+					runnerEnabled = true;
 				}
 			}).on("selected", function(e) {
+				runnerEnabled = true;
+
 				navTabView.closePanelContainer();
 
 				connHandler.sendMessage({
@@ -104,6 +114,9 @@ var SandboxController = exports.SandboxController = (function() {
 					documentName.classList.remove("modified");
 				else
 					documentName.classList.add("modified");
+
+				modeSelector.selectedIndex = renderersDropdownList.indexOf(e.data.doctype);
+				that.changeRenderer(e.data.doctype);
 
 				editor.setValue(e.data.code);
 				editor.gotoLine(1);
@@ -155,9 +168,10 @@ var SandboxController = exports.SandboxController = (function() {
 			documentName.addEventListener("blur", function() {
 				if (this.classList.contains("modified")) {
 					connHandler.sendMessage({
-						  cmd   : "updatetitle"
-						, guid  : sessionGuid
-						, title : this.innerText
+						  cmd       : "updateattr"
+						, attribute : "title"
+						, attribute_value : this.innerText
+						, guid      : sessionGuid
 					});
 				}
 			});
@@ -233,12 +247,13 @@ var SandboxController = exports.SandboxController = (function() {
 			modeSelector.appendChild(domify('<option value="' + dropdown_value + '">' + name + '</option>'));
 
 			renderers[dropdown_value] = renderer;
+			renderersDropdownList.push(dropdown_value);
 
 			if (outputContainer.children.length === 0)
 				this.changeRenderer(dropdown_value);
 		},
 
-		changeRenderer : function(dropdown_value) {
+		changeRenderer : function(dropdown_value, save) {
 			var renderer = renderers[dropdown_value];
 
 			if (outputContainer.children.length) {
@@ -253,6 +268,15 @@ var SandboxController = exports.SandboxController = (function() {
 
 			activeRenderer = renderers[dropdown_value];
 			editor && activeRenderer.enable(editor.getValue());
+
+			if (save === true || typeof save === "undefined") {
+				connHandler && connHandler.sendMessage({
+					  cmd       : "updateattr"
+					, attribute : "doctype"
+					, attribute_value : dropdown_value
+					, guid      : sessionGuid
+				});
+			}
 		},
 
 		getEditor : function() {
@@ -274,9 +298,8 @@ var SandboxController = exports.SandboxController = (function() {
 					}
 				}
 
-				that.emit("run", {
-					editorContents : editorContents
-				});
+				if (runnerEnabled)
+					that.emit("run", { editorContents : editorContents });
 
 				if (enableSave === true) {
 					clearTimeout(timeout);
