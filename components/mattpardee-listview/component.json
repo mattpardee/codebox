@@ -13,6 +13,7 @@
     "component/emitter" : "*",
     "component/domify" : "*",
     "creationix/fbox" : "*",
+    "creationix/iconbutton" : "*",
     "mattpardee/fboxcell" : "*"
   },
   "repo": "https://raw.github.com/mattpardee/listview"

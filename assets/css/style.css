@@ -152,58 +152,6 @@ html, body {
 	overflow-y: auto;
 }
 
-.listview {
-	background: #d0d0d0 url(../images/thatched_bg.png);
-	overflow: auto;
-}
-
-.listitem {
-	cursor: default;
-	background: #fff;
-	border-bottom: 1px solid #aaa;
-	-webkit-transition: background 0.15s;
-	-moz-transition: background 0.15s;
-	-o-transition: background 0.15s;
-	-ms-transition: background 0.15s;
-}
-
-.listitem:hover {
-	background: #f7f7f7;
-}
-
-.listitem * {
-	pointer-events: none;
-}
-
-.listitem .selector {
-	display: inline-block;
-	width: 12px;
-	height: 12px;
-	border-radius: 40px;
-	border: 2px solid #fff;
-    background: #fff;
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 1);
-    position: absolute;
-    left: 14px;
-    top: 19px;
-
-    -webkit-transition: background 0.25s;
-	-moz-transition: background 0.25s;
-	-o-transition: background 0.25s;
-	-ms-transition: background 0.25s;
-}
-
-.listitem:hover .selector {
-	background: #bbb;
-}
-.listitem.selected .selector, .listitem.selected:hover .selector {
-	background: #5EF240;
-}
-
-.listitem .litext {
-	margin-left: 25px;
-}
-
 #editor-header {
 	background: #f7f7f7;
 	border-bottom: 1px solid #ddd;

@@ -118,6 +118,19 @@ function Session(ws) {
 	    		updateBlob({ code : codeBlob.code });
         		break;
 
+        	case "delete":
+        		//console.log("Wants to delete %s", message.guid);
+        		CodeBlob.findOneAndRemove({
+						guid : message.guid
+					},
+					function(err) {
+						if (err)
+							console.log("Could not delete %s. Error: ", message.guid, err);
+						//console.log("Deleted %s", message.guid);
+					}
+				);
+        		break;
+
         	case "updateattr":
         		if (allowedUpdateAttributes.indexOf(message.attribute) === -1)
         			return;

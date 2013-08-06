@@ -73,7 +73,7 @@ var SandboxController = exports.SandboxController = (function() {
 			var that = this;
 
 			historyContainer.addListItem(
-				  ['<div><div class="selector"></div><div class="litext">',
+				  ['<div><div class="litext">',
 						, title
 						, '<br />'
 						, updated || new Date(Date.now()).toLocaleString()
@@ -127,6 +127,11 @@ var SandboxController = exports.SandboxController = (function() {
 				}
 
 				enableSave = true;
+			}).on("delete", function(e) {
+				connHandler.sendMessage({
+					  cmd  : "delete"
+					, guid : e.data.guid
+				});
 			});
 		},
 
