@@ -1,0 +1,16 @@
+{
+    "name": "statebutton",
+    "description": "A simple web component for a button, keeping de/pressed state info",
+    "version": "0.0.1",
+    "main": "statebutton.js",
+    "scripts": [
+        "statebutton.js"
+    ],
+    "styles": [
+        "statebutton.css"
+    ],
+    "dependencies": {
+        "creationix/font-awesome": "*"
+    },
+    "repo": "https://raw.github.com/mattpardee/statebutton"
+}

@@ -2,7 +2,7 @@ var vBox = require('fbox').VBox
 	, hBox = require('fbox').HBox
 	, Cell = require('fboxcell').Cell
 	, domify = require('domify')
-	, IconButton = require('iconbutton').IconButton
+	, StateButton = require('statebutton')
 	, Emitter = require('emitter');
 
 exports.ListView = ListView;
@@ -21,7 +21,7 @@ function ListView() {
 
 		init : function() {
 			var that = this;
-			editButton = new IconButton("icon icon-edit", "Edit List", function(e) {
+			editButton = new StateButton("icon icon-edit", "Edit List", function(e) {
 				that.toggleEditMode();
 			});
 

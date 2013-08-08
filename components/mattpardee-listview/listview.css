@@ -67,10 +67,6 @@
 	border-bottom: 1px solid #bbb;
 }
 
-.listheader .iconbutton {
-	border-left: 1px solid #bbb;
-}
-
 .listitem {
 	cursor: default;
 	overflow: hidden;

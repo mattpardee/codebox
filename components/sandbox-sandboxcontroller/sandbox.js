@@ -116,7 +116,7 @@ var SandboxController = exports.SandboxController = (function() {
 					documentName.classList.add("modified");
 
 				modeSelector.selectedIndex = renderersDropdownList.indexOf(e.data.doctype);
-				that.changeRenderer(e.data.doctype);
+				that.changeRenderer(e.data.doctype, false);
 
 				editor.setValue(e.data.code);
 				editor.gotoLine(1);
