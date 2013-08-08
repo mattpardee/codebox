@@ -17,8 +17,13 @@
 	font-size: 18px;
 	opacity: 0;
 	-webkit-transition: -webkit-transform 0.2s, opacity 0.1s;
-	-webkit-transform: rotate(45deg);
-	-webkit-transform-origin: 50% 50%;
+	-moz-transition: -moz-transform 0.2s, opacity 0.1s;
+	-o-transition: -o-transform 0.2s, opacity 0.1s;
+	-ms-transition: -ms-transform 0.2s, opacity 0.1s;
+	-webkit-transform: rotate(135deg) scale(0.5);
+	-moz-transform: rotate(135deg) scale(0.5);
+	-o-transform: rotate(135deg) scale(0.5);
+	-ms-transform: rotate(135deg) scale(0.5);
 }
 
 .listitem i.delete-item span {
@@ -36,12 +41,21 @@
 
 .listview.editmode .listitem i.delete-item {
 	pointer-events: auto;
-	-webkit-transform: rotate(0deg);
+	-webkit-transform: rotate(0deg) scale(1.0);
+	-moz-transform: rotate(0deg) scale(1.0);
+	-o-transform: rotate(0deg) scale(1.0);
+	-ms-transform: rotate(0deg) scale(1.0);
 	opacity: 1;
 }
 
 .listview {
 	background: #d0d0d0 url(../../assets/images/thatched_bg.png);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: moz-none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .listitemcontainer {
@@ -59,12 +73,17 @@
 
 .listitem {
 	cursor: default;
+	overflow: hidden;
 	background: #fff;
 	border-bottom: 1px solid #aaa;
 	-webkit-transition: background 0.15s;
 	-moz-transition: background 0.15s;
 	-o-transition: background 0.15s;
 	-ms-transition: background 0.15s;
+}
+
+.listitem.removing, .listitem.removing:hover {
+	background: #FFBEBE;
 }
 
 .listitem:hover {

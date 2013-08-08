@@ -81,7 +81,10 @@ function ListView() {
 		removeListItem : function(el) {
 			for (var i = 0, len = listContainer.children.length; i < len; i++) {
 				if (el === listContainer.children[i]) {
-					listContainer.remove(i);
+					el.el.classList.add("removing");
+					setTimeout(function() {
+						listContainer.remove(i);
+					}, 150);
 					return i;
 				}
 			}
