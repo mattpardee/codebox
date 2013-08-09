@@ -127,8 +127,9 @@ var SandboxController = exports.SandboxController = (function() {
 			).on("mouseover", function(e) {
 				enableSave = false;
 				runnerEnabled = false;
-				documentName.innerText = e.data.title;
-				editor.setValue(e.data.code);
+				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
+				documentName.innerText = documentCollection.models[listViewIndex].get('title');
+				editor.setValue(documentCollection.models[listViewIndex].get('code'));
 				editor.gotoLine(1);
 			}).on("mouseout", function() {
 				if (enableSave === false) {
@@ -157,15 +158,15 @@ var SandboxController = exports.SandboxController = (function() {
 				modeSelector.selectedIndex = renderersDropdownList.indexOf(e.data.doctype);
 				that.changeRenderer(e.data.doctype, false);
 
-				editor.setValue(e.data.code);
-				editor.gotoLine(1);
-
 				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
 				currentDocModel = documentCollection.models[listViewIndex];
 
+				editor.setValue(currentDocModel.get('code'));
+				editor.gotoLine(1);
+
 				stashedEditorSession = {
-					  contents : e.data.code
-					, title : e.data.title
+					  contents : currentDocModel.get('code')
+					, title : currentDocModel.get('title')
 				}
 
 				enableSave = true;

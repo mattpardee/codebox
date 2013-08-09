@@ -130,8 +130,9 @@ function ListItem(innerHTML, data) {
 
 			this.elMouseoverListener = function(evt) {
 				listItem.emit("mouseover", {
-					  el   : elCell.el
-					, data : data
+					  el       : elCell.el
+					, listItem : listItem
+					, data     : data
 				});
 			};
 
