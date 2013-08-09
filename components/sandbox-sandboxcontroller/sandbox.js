@@ -81,7 +81,7 @@ var SandboxController = exports.SandboxController = (function() {
 								, data.code
 								, data.doctype
 								, data.guid
-								, new Date(data.updated).toLocaleString()
+								, data.updated ? new Date(data.updated).toLocaleString() : null
 							);
 
 							documentModel.on("change", function(name, val, prev) {
@@ -112,55 +112,56 @@ var SandboxController = exports.SandboxController = (function() {
 			var that = this;
 
 			codeDocListview.addListItem(
+
 				  ['<div><div class="litext">',
 						, title
 						, '<br />'
 						, updated || new Date(Date.now()).toLocaleString()
 						, '</div></div>'
 				  ].join('')
-				  , {
-				  		  title   : title
-						, code    : code
-						, doctype : doctype
-						, guid    : guid
-				  }
+
 			).on("mouseover", function(e) {
+
 				enableSave = false;
 				runnerEnabled = false;
 				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
 				documentName.innerText = documentCollection.models[listViewIndex].get('title');
 				editor.setValue(documentCollection.models[listViewIndex].get('code'));
 				editor.gotoLine(1);
+
 			}).on("mouseout", function() {
-				if (enableSave === false) {
-					editor.setValue(stashedEditorSession.contents);
-					documentName.innerText = stashedEditorSession.title;
-					editor.gotoLine(1);
-					enableSave = true;
-					runnerEnabled = true;
-				}
+
+				if (enableSave)
+					return;
+
+				editor.setValue(stashedEditorSession.contents);
+				documentName.innerText = stashedEditorSession.title;
+				editor.gotoLine(1);
+				enableSave = true;
+				runnerEnabled = true;
+
 			}).on("selected", function(e) {
 				runnerEnabled = true;
 
 				navTabView.closePanelContainer();
 
-				connHandler.sendMessage({
-					  cmd  : "changesession"
-					, guid : e.data.guid
-				});
+				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
+				currentDocModel = documentCollection.models[listViewIndex];
 
-				documentName.innerText = e.data.title;
-				if (e.data.title === "Untitled")
+				if (currentDocModel.get('title') === "Untitled")
 					documentName.classList.remove("modified");
 				else
 					documentName.classList.add("modified");
 
-				modeSelector.selectedIndex = renderersDropdownList.indexOf(e.data.doctype);
-				that.changeRenderer(e.data.doctype, false);
+				connHandler.sendMessage({
+					  cmd  : "changesession"
+					, guid : currentDocModel.get('guid')
+				});
 
-				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
-				currentDocModel = documentCollection.models[listViewIndex];
+				modeSelector.selectedIndex = renderersDropdownList.indexOf(currentDocModel.get('doctype'));
+				that.changeRenderer(currentDocModel.get('doctype'), false);
 
+				documentName.innerText = currentDocModel.get('title');
 				editor.setValue(currentDocModel.get('code'));
 				editor.gotoLine(1);
 
@@ -173,12 +174,13 @@ var SandboxController = exports.SandboxController = (function() {
 			}).on("delete", function(e) {
 				// TODO: Do we need to do anything else besides this?
 				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
-				documentCollection.models.splice(listViewIndex, 1);
 
 				connHandler.sendMessage({
 					  cmd  : "delete"
-					, guid : e.data.guid
+					, guid : documentCollection.models[listViewIndex].get('guid')
 				});
+
+				documentCollection.models.splice(listViewIndex, 1);
 			});
 		},
 
@@ -293,8 +295,6 @@ var SandboxController = exports.SandboxController = (function() {
 		},
 
 		/*
-		 * 
-		 * 
 		 * @param name String The name of the extension
 		 * @param viewer Object fBox or Cell element to show rendered content
 		 */
@@ -359,7 +359,7 @@ var SandboxController = exports.SandboxController = (function() {
 					clearTimeout(timeout);
 					timeout = setTimeout(function() {
 						currentDocModel.set({ "code" : editorContents });
-					}, 300);
+					}, 1000);
 				}
 			});
 

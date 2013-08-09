@@ -58,8 +58,8 @@ function ListView() {
 			activeListElement = el;
 		},
 
-		addListItem : function(innerHTML, data) {
-			var listItem = new ListItem(innerHTML, data);
+		addListItem : function(innerHTML) {
+			var listItem = new ListItem(innerHTML);
 			var that = this;
 			listItem.on("selected", function(e) {
 				that.setActiveListItem(e.el);
@@ -105,7 +105,7 @@ function ListView() {
 	return listView;
 }
 
-function ListItem(innerHTML, data) {
+function ListItem(innerHTML) {
 	var elCell = new hBox()
 		, selector = new Cell('<div><div class="selector"></div></div>')
 		, deleteIcon = domify('<i class="delete-item"><span></span></i>');
@@ -122,9 +122,9 @@ function ListItem(innerHTML, data) {
 			this.deleteClickListener = function(e) {
 				e.stopPropagation();
 				listItem.emit("delete", {
-					  event : e
-					, data  : data
-					, item  : listItem
+					  event    : e
+					, listItem : listItem
+					, item     : listItem
 				})
 			};
 
@@ -132,14 +132,12 @@ function ListItem(innerHTML, data) {
 				listItem.emit("mouseover", {
 					  el       : elCell.el
 					, listItem : listItem
-					, data     : data
 				});
 			};
 
 			this.elMouseoutListener = function(evt) {
 				listItem.emit("mouseout", {
-					  el   : elCell.el
-					, data : data
+					  el : elCell.el
 				});
 			};
 
@@ -159,7 +157,6 @@ function ListItem(innerHTML, data) {
 			this.emit("selected", {
 				  el       : elCell.el
 				, listItem : listItem
-				, data     : data
 			});
 		},
 
