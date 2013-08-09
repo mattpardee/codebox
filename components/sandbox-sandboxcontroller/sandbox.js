@@ -2,6 +2,8 @@ var vBox = require('fbox').VBox
 	, hBox = require('fbox').HBox
 	, splitView = require('splitview').SplitView
 	, IconButtonBar = require('iconbuttonbar').IconButtonBar
+	, model = require('model')
+	, Collection = require('collection')
 	, domify = require('domify')
 	, Emitter = require('emitter')
 	, Cell = require('fboxcell').Cell
@@ -10,6 +12,9 @@ var vBox = require('fbox').VBox
 
 var SandboxController = exports.SandboxController = (function() {
 	var connHandler
+		, DocumentModel = model('Document')
+		, documentCollection = new Collection()
+		, currentDocModel
 		, parentContainer
 		, renderers = {}
 		, activeRenderer
@@ -27,7 +32,7 @@ var SandboxController = exports.SandboxController = (function() {
 		, documentName = domify('<h1 id="document-name" contenteditable="true">Untitled</h1>')
 		, modeSelector = domify('<select id="mode-selector"></select>')
 		, sidebar = new Cell('<div id="editor" class="chatrooms sidebar"></div>')
-		, historyContainer = new ListView()
+		, codeDocListview = new ListView()
 		, outputContainer = new vBox()
 		, iFrameCover = new Cell('<div id="iframe-cover"></div>')
 		, sessionGuid
@@ -42,25 +47,59 @@ var SandboxController = exports.SandboxController = (function() {
 				try {
 					data = JSON.parse(m.data);
 				}
-				catch (e) {
-
-				}
+				catch (e) {}
 
 				console.log(data);
 				switch (data.cmd) {
 					case "handshake":
 						sessionGuid = data.guid;
-						that.addHistoryItem("Untitled", editor.getValue(), "htmljavascript", sessionGuid);
-						historyContainer.setActiveListItem(0);
-						for (var i = 0, len = data.history.length; i < len; i++) {
-							that.addHistoryItem(
-								  data.history[i].title
-								, data.history[i].code
-								, data.history[i].doctype
-								, data.history[i].guid
-								, new Date(data.history[i].updated).toLocaleString()
-							);
+
+						// Construct our document model based on the schema
+						// the server has sent us
+						for (var sprop in data.schema) {
+							DocumentModel.attr(sprop, {
+								type : data.schema[sprop].type
+							});
 						}
+
+						// Set our new empty document
+						docModelHelper({
+							  title   : "Untitled"
+							, code    : editor.getValue()
+							, doctype : "htmljavascript"
+							, guid    : sessionGuid
+						});
+
+						codeDocListview.setActiveListItem(0);
+
+						function docModelHelper(data) {
+							var documentModel = new DocumentModel(data);
+							documentCollection.push(documentModel);
+
+							that.addCodeDocument(
+								  data.title
+								, data.code
+								, data.doctype
+								, data.guid
+								, new Date(data.updated).toLocaleString()
+							);
+
+							documentModel.on("change", function(name, val, prev) {
+								//console.log("updated model", this.get("guid"), name, val, prev);
+								connHandler && connHandler.sendMessage({
+									  cmd       : "updateattr"
+									, attribute : name
+									, attribute_value : val
+									, guid      : this.get("guid")
+								});
+							});
+						}
+
+						for (var i = 0, len = data.history.length; i < len; i++) {
+							docModelHelper(data.history[i]);
+						}
+
+						currentDocModel = documentCollection.models[0];
 						break;
 
 					default:
@@ -69,10 +108,10 @@ var SandboxController = exports.SandboxController = (function() {
 			});
 		},
 
-		addHistoryItem : function(title, code, doctype, guid, updated) {
+		addCodeDocument : function(title, code, doctype, guid, updated) {
 			var that = this;
 
-			historyContainer.addListItem(
+			codeDocListview.addListItem(
 				  ['<div><div class="litext">',
 						, title
 						, '<br />'
@@ -121,6 +160,9 @@ var SandboxController = exports.SandboxController = (function() {
 				editor.setValue(e.data.code);
 				editor.gotoLine(1);
 
+				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
+				currentDocModel = documentCollection.models[listViewIndex];
+
 				stashedEditorSession = {
 					  contents : e.data.code
 					, title : e.data.title
@@ -128,6 +170,10 @@ var SandboxController = exports.SandboxController = (function() {
 
 				enableSave = true;
 			}).on("delete", function(e) {
+				// TODO: Do we need to do anything else besides this?
+				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
+				documentCollection.models.splice(listViewIndex, 1);
+
 				connHandler.sendMessage({
 					  cmd  : "delete"
 					, guid : e.data.guid
@@ -185,12 +231,7 @@ var SandboxController = exports.SandboxController = (function() {
 			});
 			documentName.addEventListener("blur", function() {
 				if (this.classList.contains("modified")) {
-					connHandler.sendMessage({
-						  cmd       : "updateattr"
-						, attribute : "title"
-						, attribute_value : this.innerText
-						, guid      : sessionGuid
-					});
+					currentDocModel.set({ "title" : this.innerText });
 				}
 			});
 			editorHeader.el.appendChild(documentName);
@@ -247,7 +288,7 @@ var SandboxController = exports.SandboxController = (function() {
 			});
 
 			navTabView.getPanelContainer().el.setAttribute("id", "history-container");
-			navTabView.addPanel(historyContainer);
+			navTabView.addPanel(codeDocListview);
 		},
 
 		/*
@@ -288,12 +329,7 @@ var SandboxController = exports.SandboxController = (function() {
 			editor && activeRenderer.enable(editor.getValue());
 
 			if (save === true || typeof save === "undefined") {
-				connHandler && connHandler.sendMessage({
-					  cmd       : "updateattr"
-					, attribute : "doctype"
-					, attribute_value : dropdown_value
-					, guid      : sessionGuid
-				});
+				currentDocModel && currentDocModel.set({ "doctype" : dropdown_value });
 			}
 		},
 
@@ -321,12 +357,7 @@ var SandboxController = exports.SandboxController = (function() {
 
 					clearTimeout(timeout);
 					timeout = setTimeout(function() {
-						// Save changes to the server
-						connHandler.sendMessage({
-							  cmd: "save"
-							, guid : sessionGuid
-							, code : editorContents
-						});
+						currentDocModel.set({ "code" : editorContents });
 					}, 300);
 				}
 			});
@@ -340,7 +371,7 @@ var SandboxController = exports.SandboxController = (function() {
 			setTimeout(function() {
 				stashedEditorSession = {
 					  contents : editor.getValue()
-					, title : documentName.innerText
+					, title    : documentName.innerText
 				}
 				enableSave = true;
 			}, 350);

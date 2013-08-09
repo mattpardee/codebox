@@ -1,0 +1,21 @@
+{
+  "name": "enumerable",
+  "repo": "component/enumerable",
+  "description": "Enumerable mixin",
+  "version": "0.3.1",
+  "keywords": [
+    "enum",
+    "enumerable",
+    "mixin",
+    "iterator",
+    "iteration"
+  ],
+  "dependencies": {
+    "component/to-function": "1.2.0"
+  },
+  "development": {},
+  "scripts": [
+    "index.js"
+  ],
+  "license": "MIT"
+}

@@ -12,6 +12,8 @@
     "sb/ext-htmljs": "*",
     "sb/ext-markdown": "*",
     "creationix/iconbutton": "*",
-    "component/marked": "*"
+    "component/marked": "*",
+    "component/model": "*",
+    "component/collection": "*"
   }
 }

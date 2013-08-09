@@ -4,8 +4,10 @@
   "version": "0.0.1",
   "main": "sandbox.js",
   "dependencies": {
+    "component/collection" : "*",
     "component/domify" : "*",
     "component/emitter" : "*",
+    "component/model" : "*",
     "creationix/fbox" : "*",
     "creationix/splitview" : "*",
     "mattpardee/fboxcell" : "*",

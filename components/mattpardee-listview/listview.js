@@ -79,12 +79,20 @@ function ListView() {
 		},
 
 		removeListItem : function(el) {
+			var index = this.getItemIndex(el);
+			if (index !== -1) {
+				el.el.classList.add("removing");
+				setTimeout(function() {
+					listContainer.remove(index);
+				}, 150);
+			}
+
+			return index;
+		},
+
+		getItemIndex : function(el) {
 			for (var i = 0, len = listContainer.children.length; i < len; i++) {
 				if (el === listContainer.children[i]) {
-					el.el.classList.add("removing");
-					setTimeout(function() {
-						listContainer.remove(i);
-					}, 150);
 					return i;
 				}
 			}
@@ -94,7 +102,6 @@ function ListView() {
 	};
 
 	listView.init();
-
 	return listView;
 }
 
@@ -136,10 +143,7 @@ function ListItem(innerHTML, data) {
 			};
 
 			this.elMouseclickListener = function(evt) {
-				listItem.emit("selected", {
-					  el   : elCell.el
-					, data : data
-				});
+				listItem.select();
 			};
 
 			deleteIcon.addEventListener("click", this.deleteClickListener);
@@ -152,8 +156,9 @@ function ListItem(innerHTML, data) {
 
 		select : function() {
 			this.emit("selected", {
-				  el   : elCell.el
-				, data : data
+				  el       : elCell.el
+				, listItem : listItem
+				, data     : data
 			});
 		},
 

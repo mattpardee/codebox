@@ -7,13 +7,16 @@ var WebSocketServer = require('ws').Server
  * Mongoose code
  */
 var allowedUpdateAttributes = ["title", "doctype", "code"];
-var CodeBlobSchema = new Schema({
-      "guid"    : { type: String }
-    , "title"   : { type: String, default: "Untitled" }
-    , "doctype" : { type: String, default: "htmljavascript" }
-    , "code"    : { type: String }
-    , "updated" : { type: Date, default: Date.now }
-});
+
+var codeBlobSchema = {
+      "guid"    : { type: 'String' }
+    , "title"   : { type: 'String', default: "Untitled" }
+    , "doctype" : { type: 'String', default: "htmljavascript" }
+    , "code"    : { type: 'String' }
+    , "updated" : { type: 'Date', default: Date.now }
+};
+
+var CodeBlobSchema = new Schema(codeBlobSchema);
 
 var CodeBlob = mongoose.model("codeblobs", CodeBlobSchema);
 
@@ -67,6 +70,7 @@ function Session(ws) {
 		ws.send(JSON.stringify({
 			  'cmd'     : 'handshake'
 			, 'guid'    : guid
+			, 'schema'  : codeBlobSchema
 			, 'history' : codes
 		}));
 	});
@@ -113,11 +117,6 @@ function Session(ws) {
     	}
 
         switch (message.cmd) {
-        	case "save":
-    			codeBlob.code = message.code;
-	    		updateBlob({ code : codeBlob.code });
-        		break;
-
         	case "delete":
         		//console.log("Wants to delete %s", message.guid);
         		CodeBlob.findOneAndRemove({
