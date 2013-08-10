@@ -141,6 +141,7 @@ var SandboxController = exports.SandboxController = (function() {
 				runnerEnabled = true;
 
 			}).on("selected", function(e) {
+
 				runnerEnabled = true;
 
 				navTabView.closePanelContainer();
@@ -171,7 +172,9 @@ var SandboxController = exports.SandboxController = (function() {
 				}
 
 				enableSave = true;
+
 			}).on("delete", function(e) {
+
 				// TODO: Do we need to do anything else besides this?
 				var listViewIndex = codeDocListview.getItemIndex(e.listItem.el);
 
@@ -342,7 +345,7 @@ var SandboxController = exports.SandboxController = (function() {
 			var that = this, timeout;
 
 			editor = ace.edit("editor");
-			editor.setTheme("ace/theme/xcode");
+			editor.setTheme("ace/theme/idle_fingers");
 
 			editor.on("change", function(e) {
 				editorContents = editor.getValue();

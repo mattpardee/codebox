@@ -14,8 +14,7 @@ html, body {
 }
 
 #app-header {
-	border-bottom: 1px solid #bbb;
-	background: #f7f7f7;
+	border-bottom: 1px solid #888;
 }
 
 #header-logo {
@@ -28,7 +27,8 @@ html, body {
 
 #header-logo img {
 	position: relative;
-	top: 2px;
+	top: -3px;
+	left: -2px;
 	margin-right: 5px;
 }
 
@@ -57,9 +57,11 @@ html, body {
 	bottom: 0;
 }
 
+#app-header, #navbar {
+	background: #222;
+}
 #navbar {
-	border-right: 1px solid #AAA;
-	background: #282D31;
+	border-right: 1px solid #888;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -69,7 +71,7 @@ html, body {
 }
 
 #navbar a.iconbutton {
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #555;
 	cursor: default;
 	-webkit-transition: background 0.15s;
 	-moz-transition: background 0.15s;
@@ -78,7 +80,7 @@ html, body {
 }
 
 #navbar a.iconbutton.active, #navbar a.iconbutton:hover {
-	background: #44484B;
+	background: #333;
 }
 
 #navbar a.iconbutton i.icon {
@@ -94,7 +96,7 @@ html, body {
 }
 
 #navbar a.iconbutton.active i.icon {
-	color: #18E2E2;
+	color: #2DB3FF;
 }
 
 #sandbox-iframe {
@@ -108,7 +110,7 @@ html, body {
 #connection_status i.icon {
 	position: absolute;
 	left: 20px;
-	top: 18px;
+	top: 15px;
 	color: #55B355;
 }
 
@@ -153,8 +155,8 @@ html, body {
 }
 
 #editor-header {
-	background: #f7f7f7;
-	border-bottom: 1px solid #ddd;
+	background: #333;
+	border-bottom: 1px solid #888;
 	padding: 5px 10px;
 }
 
@@ -177,7 +179,7 @@ html, body {
 }
 
 #document-name.modified {
-	color: #555;
+	color: #eee;
 }
 
 #document-name:hover {

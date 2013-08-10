@@ -50,14 +50,14 @@ var JSSandbox = (function() {
 			header.el.setAttribute("id", "app-header");
 			var logoCell = new Cell(
 				['<div id="header-logo">',
-					'<img src="assets/images/logo_icon.png" width="22" /> <span>Code Sandbox</span>',
+					'<img src="assets/images/logo_name.png" width="113" />',
 				'</div>'].join(''));
 			header.add(logoCell, -1);
 
 			connectionStatus = new Cell('<div id="connection_status" class="disconnected"><i class="icon icon-circle-blank"></i></div>')
 			header.add(connectionStatus, 55);
 
-			appbox.add(header, 50);
+			appbox.add(header, 45);
 
 			document.body.appendChild(appbox.el);
 		}
