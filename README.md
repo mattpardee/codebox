@@ -1,4 +1,4 @@
-# <img src="https://raw.github.com/mattpardee/code-sandbox/master/assets/images/logo_icon.png" width="28" /> Code Sandbox
+#Codebox
 
 _A general purpose coding utility with live rendering and autosaving to a
 mongo backend._

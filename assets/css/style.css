@@ -15,15 +15,14 @@ html, body {
 
 #app-header {
 	border-bottom: 1px solid #bbb;
-	background: #f5f3ef;
-background: -moz-linear-gradient(top,  #f5f3ef 0%, #efedeb 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f3ef), color-stop(100%,#efedeb));
-background: -webkit-linear-gradient(top,  #f5f3ef 0%,#efedeb 100%);
-background: -o-linear-gradient(top,  #f5f3ef 0%,#efedeb 100%);
-background: -ms-linear-gradient(top,  #f5f3ef 0%,#efedeb 100%);
-background: linear-gradient(to bottom,  #f5f3ef 0%,#efedeb 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f3ef', endColorstr='#efedeb',GradientType=0 );
-
+	background: #ffffff;
+	background: -moz-linear-gradient(top,  #ffffff 0%, #efedeb 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#efedeb));
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#efedeb 100%);
+	background: -o-linear-gradient(top,  #ffffff 0%,#efedeb 100%);
+	background: -ms-linear-gradient(top,  #ffffff 0%,#efedeb 100%);
+	background: linear-gradient(to bottom,  #ffffff 0%,#efedeb 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#efedeb',GradientType=0 );
 }
 
 #header-logo {
@@ -68,13 +67,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f3ef', end
 
 #navbar {
 	background: #282d31;
-background: -moz-linear-gradient(left,  #282d31 0%, #171b1e 100%);
-background: -webkit-gradient(linear, left top, right top, color-stop(0%,#282d31), color-stop(100%,#171b1e));
-background: -webkit-linear-gradient(left,  #282d31 0%,#171b1e 100%);
-background: -o-linear-gradient(left,  #282d31 0%,#171b1e 100%);
-background: -ms-linear-gradient(left,  #282d31 0%,#171b1e 100%);
-background: linear-gradient(to right,  #282d31 0%,#171b1e 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#282d31', endColorstr='#171b1e',GradientType=1 );
+	background: -moz-linear-gradient(left,  #282d31 0%, #171b1e 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#282d31), color-stop(100%,#171b1e));
+	background: -webkit-linear-gradient(left,  #282d31 0%,#171b1e 100%);
+	background: -o-linear-gradient(left,  #282d31 0%,#171b1e 100%);
+	background: -ms-linear-gradient(left,  #282d31 0%,#171b1e 100%);
+	background: linear-gradient(to right,  #282d31 0%,#171b1e 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#282d31', endColorstr='#171b1e',GradientType=1 );
 
 	border-right: 1px solid #aaa;
 	-webkit-touch-callout: none;
