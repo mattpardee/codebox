@@ -345,7 +345,7 @@ var SandboxController = exports.SandboxController = (function() {
 			var that = this, timeout;
 
 			editor = ace.edit("editor");
-			editor.setTheme("ace/theme/idle_fingers");
+			editor.setTheme("ace/theme/xcode");
 
 			editor.on("change", function(e) {
 				editorContents = editor.getValue();
