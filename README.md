@@ -18,8 +18,10 @@ $ npm install
 $ npm install -g uglify-js
 $ npm install -g component
 $ component build -v && uglifyjs build/build.js -o build/build.min.js
+$ git submodule update --init
+$ cd assets/ace && npm install && node ./Makefile.dryice.js
 $ Spin up a local, un-auth'd mongod (you can change those settings in server/server.js)
-$ node server/server
+$ node server/server.js
 ```
 
 Then open `index.html` in Chrome, Safari, FF (, Opera, IE?)
