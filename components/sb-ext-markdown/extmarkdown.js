@@ -35,6 +35,9 @@ var SandboxController = require('sandboxcontroller').SandboxController
 
 		run : function(editorContents) {
 			outputCell.el.innerHTML = marked(editorContents);
+			var codeBlocks = outputCell.el.getElementsByTagName("code");
+			for (var i = 0, len = codeBlocks.length; i < len; i++)
+				hljs.highlightBlock(codeBlocks[i]);
 		},
 
 		enable : function(editorContents) {

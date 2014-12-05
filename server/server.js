@@ -1,7 +1,7 @@
 var WebSocketServer = require('ws').Server
+	, wss = new WebSocketServer({port: 1515})
 	, mongoose = require('mongoose')
-	, Schema = mongoose.Schema
-	, wss = new WebSocketServer({port: 1515});
+	, Schema = mongoose.Schema;
 
 /*
  * Mongoose code
